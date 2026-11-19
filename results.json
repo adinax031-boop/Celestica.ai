@@ -1,0 +1,111 @@
+{
+  "archive": {
+    "n": 30,
+    "arms": {
+      "base": {
+        "passed": 12,
+        "compiled": 18,
+        "invalid": 6,
+        "repair": 3,
+        "generation": 9,
+        "gains": 0,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 1.0,
+        "edits_accepted": 0
+      },
+      "adapter": {
+        "passed": 6,
+        "compiled": 12,
+        "invalid": 2,
+        "repair": 4,
+        "generation": 2,
+        "gains": 4,
+        "losses": 10,
+        "mcnemar_exact_descriptive": 0.1795654296875,
+        "edits_accepted": 0
+      },
+      "route": {
+        "passed": 16,
+        "compiled": 23,
+        "invalid": 4,
+        "repair": 6,
+        "generation": 10,
+        "gains": 4,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 0.125,
+        "edits_accepted": 0
+      },
+      "compiler_edit": {
+        "passed": 13,
+        "compiled": 20,
+        "invalid": 6,
+        "repair": 4,
+        "generation": 9,
+        "gains": 1,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 1.0,
+        "edits_accepted": 2
+      },
+      "edit_then_route": {
+        "passed": 16,
+        "compiled": 24,
+        "invalid": 4,
+        "repair": 6,
+        "generation": 10,
+        "gains": 4,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 0.125,
+        "edits_accepted": 2
+      }
+    },
+    "compiler_only_proposals": 2,
+    "compile_errors_initial": 6,
+    "selection_seconds_sum": 3.0218709669998134,
+    "wall_seconds": 3.5804343570000583,
+    "new_model_calls": 0,
+    "selections_sha256": "b3219dc6c09587f58e4b269d60d031c7860496c548f7542027d2f38509671590"
+  },
+  "controls": {
+    "n": 60,
+    "arms": {
+      "base": {
+        "passed": 0,
+        "compiled": 59,
+        "invalid": 1,
+        "repair": 0,
+        "generation": 0,
+        "gains": 0,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 1.0,
+        "edits_accepted": 0
+      },
+      "compiler_edit": {
+        "passed": 0,
+        "compiled": 59,
+        "invalid": 1,
+        "repair": 0,
+        "generation": 0,
+        "gains": 0,
+        "losses": 0,
+        "mcnemar_exact_descriptive": 1.0,
+        "edits_accepted": 0
+      }
+    },
+    "compiler_only_proposals": 0,
+    "compile_errors_initial": 0,
+    "selection_seconds_sum": 1.7254463919996397,
+    "wall_seconds": 3.569999487999894,
+    "new_model_calls": 0,
+    "selections_sha256": "5a5e451b3a91f3f8b10e8bd3ca1d03793b02f872fd8e392bc63e3ca95ee0b65e"
+  },
+  "historical_inference": {
+    "base_model_calls": 30,
+    "route_model_calls": 42,
+    "base_generated_tokens": 2614,
+    "route_generated_tokens": 3331,
+    "base_generation_seconds": 231.58,
+    "route_generation_seconds": 317.2
+  },
+  "fresh_matched_model_comparison": "Incomplete",
+  "incumbent": "Qwen3.5-4B"
+}
