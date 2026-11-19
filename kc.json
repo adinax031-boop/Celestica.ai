@@ -1,0 +1,221 @@
+{
+  "recorded": [
+    {
+      "id": "last_max",
+      "spec": "Return a reference to the maximum ordered element, preferring the last on ties.",
+      "sig": "fn last_max<T: Ord>(a: &[T]) -> Option<&T>",
+      "first": {
+        "body": "a.iter().max_by_key(|&x| (x, a.iter().position(|y| y == &x).unwrap_or(usize::MAX)))",
+        "compiler": "compile_error",
+        "diagnostic": "error[E0277]: can't compare `T` with `&T`\n --> candidate.rs:4:54\n  |\n4 | a.iter().max_by_key(|&x| (x, a.iter().position(|y| y == &x).unwrap_or(usize::MAX)))\n  |                                                      ^^ no implementation for `T == &T`\n  |\n  = note: required for `&T` to implement `PartialEq<&&T>`\nhelp: consider removing the borrow\n  |\n4 - a.iter().max_by_key(|&x| (x, a.iter().position(|y| y == &x).unwrap_or(usize::MAX)))\n4 + a.iter().max_by_key(|&x| (x, a.iter().position(|y| y == x).unwrap_or(usize::MAX)))\n  |\nhelp: consider further restricting type parameter `T` with trait `PartialEq`\n  |\n3 | fn last_max<T: Ord + std::cmp::PartialEq<&T>>(a: &[T]) -> Option<&T> {\n  |                    +++++++++++++++++++++++++\n\n\nerror: aborting due to 1 previous error\n\n",
+        "status": "compile_error"
+      },
+      "last": {
+        "body": "a.iter().max()",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "repair_shift",
+      "spec": "Return the original Vec and its length, avoiding cloning or reallocating.",
+      "sig": "fn repair_shift(xs: Vec<String>) -> (Vec<String>, usize)",
+      "first": {
+        "body": "(xs, xs.len())",
+        "compiler": "compile_error",
+        "diagnostic": "error[E0382]: borrow of moved value: `xs`\n --> candidate.rs:4:6\n  |\n3 | fn repair_shift(xs: Vec<String>) -> (Vec<String>, usize) {\n  |                 -- move occurs because `xs` has type `Vec<String>`, which does not implement the `Copy` trait\n4 | (xs, xs.len())\n  |  --  ^^ value borrowed here after move\n  |  |\n  |  value moved here\n  |\nhelp: consider cloning the value if the performance cost is acceptable\n  |\n4 | (xs.clone(), xs.len())\n  |    ++++++++\n\n\nerror: aborting due to 1 previous error\n\n",
+        "status": "compile_error"
+      },
+      "last": {
+        "body": "(xs, xs.len())",
+        "compiler": "compile_error",
+        "diagnostic": "error[E0382]: borrow of moved value: `xs`\n --> candidate.rs:4:6\n  |\n3 | fn repair_shift(xs: Vec<String>) -> (Vec<String>, usize) {\n  |                 -- move occurs because `xs` has type `Vec<String>`, which does not implement the `Copy` trait\n4 | (xs, xs.len())\n  |  --  ^^ value borrowed here after move\n  |  |\n  |  value moved here\n  |\nhelp: consider cloning the value if the performance cost is acceptable\n  |\n4 | (xs.clone(), xs.len())\n  |    ++++++++\n\n\nerror: aborting due to 1 previous error\n\n",
+        "status": "compile_error"
+      }
+    },
+    {
+      "id": "before_marker",
+      "spec": "Return the part before the first marker, or the entire text if the marker is absent. Borrow only from text.",
+      "sig": "fn before_marker<'a>(text: &'a str, marker: &str) -> &'a str",
+      "first": {
+        "body": "if text.contains(marker) {\n        &text[..text.find(marker)]\n    } else {\n        text\n}",
+        "compiler": "compile_error",
+        "diagnostic": "error[E0277]: the type `str` cannot be indexed by `RangeTo<Option<usize>>`\n --> candidate.rs:5:15\n  |\n5 |         &text[..text.find(marker)]\n  |               ^^^^^^^^^^^^^^^^^^^ string indices are ranges of `usize`\n  |\n  = help: the trait `SliceIndex<str>` is not implemented for `RangeTo<Option<usize>>`\n  = help: the following other types implement trait `SliceIndex<T>`:\n            `RangeTo<usize>` implements `SliceIndex<[T]>`\n            `RangeTo<usize>` implements `SliceIndex<str>`\n  = note: required for `str` to implement `Index<RangeTo<Option<usize>>>`\n\n\nerror: aborting due to 1 previous error\n\n",
+        "status": "compile_error"
+      },
+      "last": {
+        "body": "if text.contains(marker) {\n        &text[..text.find(marker)]\n    } else {\n        text\n}",
+        "compiler": "compile_error",
+        "diagnostic": "error[E0277]: the type `str` cannot be indexed by `RangeTo<Option<usize>>`\n --> candidate.rs:5:15\n  |\n5 |         &text[..text.find(marker)]\n  |               ^^^^^^^^^^^^^^^^^^^ string indices are ranges of `usize`\n  |\n  = help: the trait `SliceIndex<str>` is not implemented for `RangeTo<Option<usize>>`\n  = help: the following other types implement trait `SliceIndex<T>`:\n            `RangeTo<usize>` implements `SliceIndex<[T]>`\n            `RangeTo<usize>` implements `SliceIndex<str>`\n  = note: required for `str` to implement `Index<RangeTo<Option<usize>>>`\n\n\nerror: aborting due to 1 previous error\n\n",
+        "status": "compile_error"
+      }
+    },
+    {
+      "id": "disjoint_increment",
+      "spec": "Increment the two supplied indices exactly once each with saturating arithmetic. For duplicate indices or any out-of-bounds index, return false and leave the slice unchanged.",
+      "sig": "fn disjoint_increment(a: &mut [i32], i: usize, j: usize) -> bool",
+      "first": {
+        "body": "if i == j || i >= a.len() || j >= a.len() {\n    return false;\n}\nlet new_i = i.saturating_add(1);\nlet new_j = j.saturating_add(1);\nif new_i == new_j {\n    return false;\n}\na[new_i] = a[new_i];\na[new_j] = a[new_j];\ntrue",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "test_failure"
+      },
+      "last": {
+        "body": "if i == j || i >= a.len() || j >= a.len() {\n    return false;\n}\nlet new_i = i.saturating_add(1);\nlet new_j = j.saturating_add(1);\nif new_i == new_j {\n    return false;\n}\na[new_i] = a[new_i];\na[new_j] = a[new_j];\ntrue",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "test_failure"
+      }
+    },
+    {
+      "id": "ascii_digit_sum",
+      "spec": "Sum ASCII digit values in a byte string. Return the index of the first invalid byte as Err. Use u64 accumulation.",
+      "sig": "fn ascii_digit_sum(values: &[u8]) -> Result<u64, usize>",
+      "first": {
+        "body": "let mut sum: u64 = 0;\nlet mut index: usize = 0;\nfor byte in values {\n    if *byte < b'0' || *byte > b'9' {\n        return Err(index);\n    }\n    sum += (*byte - b'0') as u64;\n    index += 1;\n}\nOk(sum)",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      },
+      "last": {
+        "body": "let mut sum: u64 = 0;\nlet mut index: usize = 0;\nfor byte in values {\n    if *byte < b'0' || *byte > b'9' {\n        return Err(index);\n    }\n    sum += (*byte - b'0') as u64;\n    index += 1;\n}\nOk(sum)",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "longest_uprun",
+      "spec": "Return the length of the longest contiguous strictly increasing run, or zero for empty input.",
+      "sig": "fn longest_uprun(values: &[i64]) -> usize",
+      "first": {
+        "body": "let mut max_len = 0;\nlet mut current_len = 0;\nfor &val in values {\n    if current_len == 0 || val > values[current_len as usize - 1] {\n        current_len += 1;\n    } else {\n        current_len = 1;\n    }\n    if current_len > max_len {\n        max_len = current_len;\n    }\n}\nmax_len",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      },
+      "last": {
+        "body": "let mut max_len = 0;\nlet mut current_len = 0;\nfor &val in values {\n    if current_len == 0 || val > values[current_len as usize - 1] {\n        current_len += 1;\n    } else {\n        current_len = 1;\n    }\n    if current_len > max_len {\n        max_len = current_len;\n    }\n}\nmax_len",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "write_prefix",
+      "spec": "Copy as many bytes from src as fit in dst. Return the count and preserve the unfilled suffix of dst.",
+      "sig": "fn write_prefix(dst: &mut [u8], src: &[u8]) -> usize",
+      "first": {
+        "body": "let len = dst.len().min(src.len());\ndst[..len].copy_from_slice(&src[..len]);\nlen",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      },
+      "last": {
+        "body": "let len = dst.len().min(src.len());\ndst[..len].copy_from_slice(&src[..len]);\nlen",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      }
+    },
+    {
+      "id": "format_optional",
+      "spec": "Use Display for Some and return a single hyphen for None.",
+      "sig": "fn format_optional<T: std::fmt::Display>(item: Option<T>) -> String",
+      "first": {
+        "body": "if item.is_some() {\n    format!(\"{}\", item.unwrap())\n} else {\n    \"-\".to_string()\n}",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      },
+      "last": {
+        "body": "if item.is_some() {\n    format!(\"{}\", item.unwrap())\n} else {\n    \"-\".to_string()\n}",
+        "compiler": "compiled",
+        "diagnostic": "",
+        "status": "pass"
+      }
+    }
+  ],
+  "summary": {
+    "base": {
+      "passed": 12,
+      "compiled": 18,
+      "invalid": 6,
+      "repair": 3,
+      "generation": 9,
+      "gains": 0,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 1.0,
+      "edits_accepted": 0
+    },
+    "adapter": {
+      "passed": 6,
+      "compiled": 12,
+      "invalid": 2,
+      "repair": 4,
+      "generation": 2,
+      "gains": 4,
+      "losses": 10,
+      "mcnemar_exact_descriptive": 0.1795654296875,
+      "edits_accepted": 0
+    },
+    "route": {
+      "passed": 16,
+      "compiled": 23,
+      "invalid": 4,
+      "repair": 6,
+      "generation": 10,
+      "gains": 4,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 0.125,
+      "edits_accepted": 0
+    },
+    "compiler_edit": {
+      "passed": 13,
+      "compiled": 20,
+      "invalid": 6,
+      "repair": 4,
+      "generation": 9,
+      "gains": 1,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 1.0,
+      "edits_accepted": 2
+    },
+    "edit_then_route": {
+      "passed": 16,
+      "compiled": 24,
+      "invalid": 4,
+      "repair": 6,
+      "generation": 10,
+      "gains": 4,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 0.125,
+      "edits_accepted": 2
+    }
+  },
+  "control": {
+    "base": {
+      "passed": 0,
+      "compiled": 59,
+      "invalid": 1,
+      "repair": 0,
+      "generation": 0,
+      "gains": 0,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 1.0,
+      "edits_accepted": 0
+    },
+    "compiler_edit": {
+      "passed": 0,
+      "compiled": 59,
+      "invalid": 1,
+      "repair": 0,
+      "generation": 0,
+      "gains": 0,
+      "losses": 0,
+      "mcnemar_exact_descriptive": 1.0,
+      "edits_accepted": 0
+    }
+  }
+}

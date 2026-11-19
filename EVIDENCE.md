@@ -1,0 +1,17 @@
+# Evidence and provenance
+
+| Research line | Recovered evidence | New observations |
+|---|---|---|
+| Memory | FRI Boundary Pilot used a 34,522-parameter CNN. Held-out average precision on digit streams was 0.8437 for output JVP/margin, 0.8376 for composite FRI and 0.8449 for equivalent direct-memory evaluation. Moonshot M2 all-memory replay old-task accuracy was 88.75%, versus 83.25% guarded JVP. Run 10 engineering validation passed 44 tests, and authentic CIFAR-100 training remained blocked. | A 1,810-parameter browser MLP was trained in five paired digit seeds and 15 synthetic feasibility runs. The guarded branch made 103.8 mean rollbacks per digit run and used 7,040 diagnostic gradient examples versus 1,760 for replay. |
+| AxiomForge | Mission 1 local commit `4875104efae2344e3dffbcde954e2d3a65214c82`. Seven original local tests passed. Official evaluation remained unrun with missing Docker and model proxy. Original interval checker and linear optimizer included under Apache 2.0. | Analytic screen sends candidate pairs to the independent four-orbit timestep checker. It agrees with exhaustive checks on all 160 synthetic missions, including 12 infeasible cases. Original interval checker independently exercises watt, watt-hour and mass margins. |
+| KC | T4-trained step-48 Rust QLoRA adapter, 27 training tasks, 3 development tasks. Archived historical 30-case route independently recompiled. Initial 12/30, adapter 6/30, route 16/30. 59/60 known-buggy controls compiled and zero passed behavior tests. | Local 0.5B inference exercised two curated tasks. The battery answer compiled and failed behavior. The water-tank candidate failed compilation after a matched-size diagnostic retry. The live session establishes integration and observed failures. |
+
+All five digit seeds share a fixed sample partition and per-seed starting weights across arms. These runs measure seed variation in one setting. Earlier-class accuracy after the final task measures retention. Immediate acquisition is accuracy immediately after each task. Final-task accuracy is the last task's accuracy at the final checkpoint. AP measures how the damage ranking performs at a specific one-step loss threshold. A nearly all-positive replay arm has a high trivial AP baseline. The benchmark logs event rates and per-seed paired differences.
+
+## Upstream sources and credit
+
+- C. Kaynak, Optical Recognition of Handwritten Digits (UCI, 1998), DOI [10.24432/C50P49](https://doi.org/10.24432/C50P49), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Embedded scikit-learn subset repacked as 0–16 pixel characters and digit labels. Original source bytes digest recorded in `lab/digits.mjs`.
+- D. Lopez-Paz and M. Ranzato, Gradient Episodic Memory for Continual Learning, NeurIPS 2017. Replay and gradient conflict have established prior art.
+- NASA, [Small Spacecraft Technology State of the Art, Power](https://www.nasa.gov/smallsat-institute/sst-soa/power-subsystems/). Source for subsystem context, not for the synthetic catalog or model calibration.
+- Qwen, Rust, Wasmtime, LoRA/QLoRA and HumanEvalPack/MultiPL-E are upstream components. The recorded app includes a small set of project-authored KC tasks. Original probe and source archives are preserved at their existing locations.
+- Codex assisted with programming, verification, research synthesis and presentation drafting. The student should supply their own specific contribution statement when presenting.
