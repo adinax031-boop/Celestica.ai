@@ -7,7 +7,6 @@ A student research project on verifying AI-generated Rust. Choose an exhibit cas
 Download `index.html` and open it in a browser. Select **Exhibition** and choose **Recorded experiment** or **Offline simulation**. The recorded mode uses historical model outputs. The simulation compares deterministic rules. The optional live service runs on a prepared Linux computer and executes only the six curated exhibit specifications.
 
 - [Exhibit HTML](index.html)
-- [PowerPoint with speaker notes](Celestica_AI_Exhibition.pptx)
 - [Source and reproduction guide](Celestica_Verify_Source.zip)
 - [Machine-readable result summary](results.json)
 
